@@ -1,21 +1,16 @@
 class Product {
-	title = 'Default'
+	constructor(title, image, price, desc) {
+		this.title = title ?? 'Default';
+		this.imgUrl = image;
+		this.description = desc;
+		this.price = price;
+	}
 }
 
 const productList = {
 	products: [
-		{
-			title: 'A Pillow',
-			imgUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pillows_on_a_hotel_bed.jpg/1920px-Pillows_on_a_hotel_bed.jpg',
-			price: 19.99,
-			description: 'A soft pillow!'
-		},
-		{
-			title: 'A Carpet',
-			imgUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ardabil_Carpet.jpg/397px-Ardabil_Carpet.jpg',
-			price: 89.99,
-			description: 'A carpet which you might like - or not.'
-		}
+		new Product('A Pillow', 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Pillows_on_a_hotel_bed.jpg/1920px-Pillows_on_a_hotel_bed.jpg', 19.99, 'A soft pillow!'),
+		new Product('A Carpet', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ardabil_Carpet.jpg/397px-Ardabil_Carpet.jpg', 89.99, 'A carpet which you might like - or not.'),
 	],
 	render() {
 		const renderHook = document.getElementById('app');

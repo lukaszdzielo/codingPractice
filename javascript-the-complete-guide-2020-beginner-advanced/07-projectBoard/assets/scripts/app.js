@@ -19,7 +19,6 @@ class Component {
 		} else {
 			this.hostElement = document.body;
 		}
-
 		this.insertBefore = insertBefore;
 	}
 
@@ -39,9 +38,9 @@ class Component {
 }
 
 class Tooltip extends Component {
-	constructor(closeNotifierFunctions) {
+	constructor(closeNotifierFunction) {
 		super();
-		this.closeNotifier = closeNotifierFunctions;
+		this.closeNotifier = closeNotifierFunction;
 		this.create();
 	}
 
@@ -53,13 +52,15 @@ class Tooltip extends Component {
 	create() {
 		const tooltipElement = document.createElement("div");
 		tooltipElement.className = "card";
-		tooltipElement.textContent = "dummy";
-		tooltipElement.addEventListener("click", this.detach);
+		tooltipElement.textContent = "DUMMY!";
+		tooltipElement.addEventListener("click", this.closeTooltip);
 		this.element = tooltipElement;
 	}
 }
 
 class ProjectItem {
+	hasActiveTooltip = false;
+
 	constructor(id, updateProjectListsFunction, type) {
 		this.id = id;
 		this.updateProjectListsHandler = updateProjectListsFunction;
@@ -68,8 +69,14 @@ class ProjectItem {
 	}
 
 	showMoreInfoHandler() {
-		const tooltip = new Tooltip();
+		if (this.hasActiveTooltip) {
+			return;
+		}
+		const tooltip = new Tooltip(() => {
+			this.hasActiveTooltip = false;
+		});
 		tooltip.attach();
+		this.hasActiveTooltip = true;
 	}
 
 	connectMoreInfoButton() {
@@ -99,6 +106,7 @@ class ProjectItem {
 
 class ProjectList {
 	projects = [];
+
 	constructor(type) {
 		this.type = type;
 		const prjItems = document.querySelectorAll(`#${type}-projects li`);
@@ -125,8 +133,8 @@ class ProjectList {
 	}
 
 	switchProject(projectId) {
-		// const projectIndex = this.projects.findIndex((p) => p.id === projectId);
-		// this.projects.splice(projectIndex , 1);
+		// const projectIndex = this.projects.findIndex(p => p.id === projectId);
+		// this.projects.splice(projectIndex, 1);
 		this.switchHandler(this.projects.find((p) => p.id === projectId));
 		this.projects = this.projects.filter((p) => p.id !== projectId);
 	}
@@ -134,14 +142,13 @@ class ProjectList {
 
 class App {
 	static init() {
-		const activeProjectList = new ProjectList("active");
-		const finishedProjectList = new ProjectList("finished");
-
-		activeProjectList.setSwitchHandlerFunction(
-			finishedProjectList.addProject.bind(finishedProjectList)
+		const activeProjectsList = new ProjectList("active");
+		const finishedProjectsList = new ProjectList("finished");
+		activeProjectsList.setSwitchHandlerFunction(
+			finishedProjectsList.addProject.bind(finishedProjectsList)
 		);
-		finishedProjectList.setSwitchHandlerFunction(
-			activeProjectList.addProject.bind(activeProjectList)
+		finishedProjectsList.setSwitchHandlerFunction(
+			activeProjectsList.addProject.bind(activeProjectsList)
 		);
 	}
 }

@@ -26,13 +26,13 @@
       <div 
         class="demo"
         @click="boxSelected('B')"
-        :class="{ 'active' : boxBSelected }"
+        :class="['someOtherClass', { 'active' : boxBSelected }]"
         :style="{borderColor: boxBSelected ? 'red' : ''}
         "></div>
       <div 
         class="demo"
         @click="boxSelected('C')"
-        :class="boxCSelected ? 'active' : '' "
+        :class="boxCClasses"
         :style="{borderColor: boxCSelected ? 'red' : ''}
         "></div>
     </section>

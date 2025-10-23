@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>How long until retirement?</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<script
+			src="https://unpkg.com/vue@3.4.9/dist/vue.global.js"
+			defer
+		></script>
+		<script src="app.js" defer></script>
+		<style>
+			html {
+				font-size: 16px;
+			}
+			body {
+				margin: 0;
+				padding: 1rem;
+				font-family: sans-serif;
+				font-size: 0.875rem;
+			}
+            #app {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 1rem;
+            }
+            fieldset {
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+                margin: 0;
+                padding: .5rem;
+                border: 1px solid #ccc;
+
+                max-width: 100%;
+                width: 320px;
+
+                box-sizing: border-box;
+                label,
+                input {
+                    display: block;
+                }
+                input {
+                    padding: .5rem 1rem;
+                    border: 1px solid #ccc;
+                    appearance: none;
+                }
+            }
+			table {
+                width: 100%;
+                max-width: 1000px;
+				border-collapse: collapse;
+				text-align: left;
+				white-space: nowrap;
+                @media screen and (max-width: 1000px) {
+                    max-width: 100%;
+                    width: 320px;
+				    white-space: normal;
+                }
+                thead {
+                    @media screen and (max-width: 1000px) {
+                        display: none;
+                    }
+                }
+				tbody {
+                    tr {
+                        &:nth-child(odd) {
+                            background-color: #f4f4f4;
+                        }
+                        @media screen and (max-width: 1000px) {
+                            display: flex;
+                            flex-direction: column;
+                            border: 1px solid #ccc;
+                            background-color: #fff !important;
+                        }
+                        + tr {
+                            margin-top: 1rem;
+                        }
+                    }
+				}
+				th,
+				td {
+					padding: 8px 16px;
+                    &::before {
+                        @media screen and (max-width: 1000px) {
+                            flex-shrink: 0;
+                            content: attr(data-label);
+                            width: 100px;
+                            float: left;
+                            text-align: start;
+                        }
+                    };
+                    @media screen and (max-width: 1000px) {
+                        display: flex;
+					    padding: 4px 8px;
+                        text-align: start !important;
+                    }
+				}
+			}
+
+			.text-center {
+				text-align: center;
+			}
+
+			.text-end {
+				text-align: end;
+			}
+		</style>
+	</head>
+	<body>
+		<section id="app">
+			<fieldset>
+                <label for="age">How long until retirement</label>
+				<input id="age" type="number" v-model.number="howManyYears" />
+			</fieldset>
+            <fieldset>
+                Until retirement<br /><b>{{ sumUp }}</b>
+            </fieldset>
+			<table>
+				<thead>
+					<tr>
+						<th class="text-center">Index</th>
+						<th class="text-center">Company</th>
+						<th class="text-end">Stard day</th>
+						<th>End day</th>
+						<th class="text-end">Hours</th>
+						<th class="text-end">Days between</th>
+						<th class="text-end">Days / Hours</th>
+						<th class="text-end">Worked</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(job, i) in jobs" :key="i">
+						<td data-label="Index" class="text-center">{{ i }}</td>
+						<td data-label="company" class="text-center">{{ job.name }}</td>
+						<td data-label="Start" class="text-end">{{ job.start }}</td>
+						<td data-label="End">{{ job.end ?? 'NOW' }}</td>
+						<td data-label="Hours" class="text-center">{{ job.hours ?? 1 }}</td>
+						<td data-label="Days between" class="text-end">{{ daysBetween(i) }}</td>
+						<td data-label="Days / Hours" class="text-end">{{ daysByHours(i) }}</td>
+						<td data-label="Worked" class="text-end">{{ diffInYMD(i) }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	</body>
+</html>

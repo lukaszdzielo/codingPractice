@@ -1,7 +1,8 @@
 const app = Vue.createApp({
 	data() {
 		return {
-			howManyYears: 25,
+			requiredYearsOfWork: 25,
+			minimumRetirementAge: 65,
 			jobs: [
 				{
 					type: "UoP",
@@ -95,7 +96,7 @@ const app = Vue.createApp({
 			// Ustal datę bazową: np. "25 lat" = 25 lat od dziś wstecz
 			const today = new Date();
 			const baseDate = new Date(today);
-			baseDate.setFullYear(today.getFullYear() - this.howManyYears);
+			baseDate.setFullYear(today.getFullYear() - this.requiredYearsOfWork);
 
 			// Odejmij dni
 			const resultDate = new Date(baseDate);

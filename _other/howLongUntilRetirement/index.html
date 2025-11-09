@@ -115,9 +115,14 @@
 	</head>
 	<body>
 		<section id="app">
+			<h1>How long until retirement</h1>
 			<fieldset>
-                <label for="age">How long until retirement</label>
-				<input id="age" type="number" v-model.number="howManyYears" />
+                <label for="age">Required years of work</label>
+				<input id="age" type="number" v-model.number="requiredYearsOfWork" />
+			</fieldset>
+			<fieldset>
+                <label for="age">Minimum retirement age</label>
+				<input id="age" type="number" v-model.number="minimumRetirementAge" />
 			</fieldset>
             <fieldset>
                 Until retirement<br /><b>{{ sumUp }}</b>

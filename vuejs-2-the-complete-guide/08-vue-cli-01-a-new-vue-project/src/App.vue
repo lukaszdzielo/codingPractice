@@ -3,6 +3,7 @@
     <header>
       <h1>My Friends</h1>
     </header>
+    <new-friend @add-contact="addContact"/>
     <ul>
       <friend-contact
         v-for="friend in friends"
@@ -28,7 +29,7 @@ export default {
           name: 'Manuel Lorenz',
           phone: '1234 6578 991',
           email: 'manuel@localhost.com',
-		      isFavorite: true,
+          isFavorite: true,
         },
         {
           id: 'julie',
@@ -39,10 +40,20 @@ export default {
     }
   },
   methods: {
-    toggleFavoriteStatus( friendId) {
-      const identyfiedFriend = this.friends.find( friend => friend.id === friendId );
-      identyfiedFriend.isFavorite = !identyfiedFriend.isFavorite;
-    }
+    toggleFavoriteStatus(friendId) {
+      const identyfiedFriend = this.friends.find((friend) => friend.id === friendId)
+      identyfiedFriend.isFavorite = !identyfiedFriend.isFavorite
+    },
+	addContact(name, phone, email) {
+		const newFriendContact = {
+			id: new Date().toISOString(),
+			name,
+			phone,
+			email,
+			isFavorite: false,
+		}
+		this.friends.push(newFriendContact)
+	}
   },
 }
 </script>
@@ -74,11 +85,20 @@ header {
   max-width: 40rem;
 }
 
-#app ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  li {
+#app {
+  h2 {
+    font-size: 2rem;
+    border-bottom: 4px solid #ccc;
+    color: #58004d;
+    margin: 0 0 1rem 0;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  li,
+  form {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     margin: 1rem auto;
     border-radius: 10px;
@@ -87,28 +107,39 @@ header {
     width: 90%;
     max-width: 40rem;
   }
-}
 
-#app h2 {
-  font-size: 2rem;
-  border-bottom: 4px solid #ccc;
-  color: #58004d;
-  margin: 0 0 1rem 0;
-}
+  input {
+	font: inherit;
+	padding: .15rem;
+  }
 
-#app button {
-  font: inherit;
-  cursor: pointer;
-  border: 1px solid #ff0077;
-  background-color: #ff0077;
-  color: white;
-  padding: 0.05rem 1rem;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
-  &:hover,
-  &:active {
-    background-color: #ec3169;
-    border-color: #ec3169;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+  label {
+	font-weight: bold;
+	margin-right: 1rem;
+	width: 7rem;
+	display: inline-block;
+  }
+
+  form {
+	div {
+		margin: 1rem 0;
+	}
+  }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    border: 1px solid #ff0077;
+    background-color: #ff0077;
+    color: white;
+    padding: 0.05rem 1rem;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.26);
+    &:hover,
+    &:active {
+      background-color: #ec3169;
+      border-color: #ec3169;
+      box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.26);
+    }
   }
 }
 </style>

@@ -7,12 +7,13 @@
       <li><strong>Phone:</strong> {{ phone }}</li>
       <li><strong>Email:</strong> {{ email }}</li>
     </ul>
+	<button @click="$emit('delete', id)">Delete</button>
   </li>
 </template>
 
 <script>
 export default {
-//   props: ['name', 'phone', 'email', 'isFavorite'],
+  //   props: ['name', 'phone', 'email', 'isFavorite'],
   props: {
     id: {
       type: String,
@@ -38,7 +39,7 @@ export default {
       default: false,
     },
   },
-  emits: ['toggle-favorite'],
+  emits: ['toggle-favorite', 'delete'],
   // emits: {
   //   'toggle-favorite': function (id) {
   //     if (id) {

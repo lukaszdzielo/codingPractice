@@ -3,7 +3,7 @@
     <header>
       <h1>My Friends</h1>
     </header>
-    <new-friend @add-contact="addContact"/>
+    <new-friend @add-contact="addContact" />
     <ul>
       <friend-contact
         v-for="friend in friends"
@@ -14,6 +14,7 @@
         :email="friend.email"
         :is-favorite="friend.isFavorite"
         @toggle-favorite="toggleFavoriteStatus"
+        @delete="deleteContact"
       />
     </ul>
   </section>
@@ -44,15 +45,18 @@ export default {
       const identyfiedFriend = this.friends.find((friend) => friend.id === friendId)
       identyfiedFriend.isFavorite = !identyfiedFriend.isFavorite
     },
-	addContact(name, phone, email) {
-		const newFriendContact = {
-			id: new Date().toISOString(),
-			name,
-			phone,
-			email,
-			isFavorite: false,
-		}
-		this.friends.push(newFriendContact)
+    addContact(name, phone, email) {
+      const newFriendContact = {
+        id: new Date().toISOString(),
+        name,
+        phone,
+        email,
+        isFavorite: false,
+      }
+      this.friends.push(newFriendContact)
+    },
+	deleteContact(friendId) {
+	  this.friends = this.friends.filter(friend => friend.id !== friendId)
 	}
   },
 }
@@ -109,21 +113,21 @@ header {
   }
 
   input {
-	font: inherit;
-	padding: .15rem;
+    font: inherit;
+    padding: 0.15rem;
   }
 
   label {
-	font-weight: bold;
-	margin-right: 1rem;
-	width: 7rem;
-	display: inline-block;
+    font-weight: bold;
+    margin-right: 1rem;
+    width: 7rem;
+    display: inline-block;
   }
 
   form {
-	div {
-		margin: 1rem 0;
-	}
+    div {
+      margin: 1rem 0;
+    }
   }
 
   button {

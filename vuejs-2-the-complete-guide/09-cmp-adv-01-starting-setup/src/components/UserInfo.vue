@@ -1,10 +1,10 @@
 <template>
   <base-card>
-    <template v-slot:header>
+    <template #header>
       <h3>{{ fullName }}</h3>
       <base-badge :type="role" :caption="role.toUpperCase()"></base-badge>
     </template>
-    <template v-slot:default>
+    <template #default>
       <p>{{ infoText }}</p>
     </template>
   </base-card>
@@ -19,6 +19,3 @@ export default {
   props: ['fullName', 'infoText', 'role'],
 }
 </script>
-
-<style scoped>
-</style>

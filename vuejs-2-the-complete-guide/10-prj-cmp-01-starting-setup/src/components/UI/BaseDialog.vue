@@ -1,32 +1,34 @@
 <template>
+  <teleport to="body">
     <div @click="$emit('close')"></div>
     <dialog :open="true">
-        <header>
-            <slot name="header">
-                <h2>{{ title }}</h2>
-            </slot>
-        </header>
-        <section>
-            <slot></slot>
-        </section>
-        <menu>
-            <slot name="actions">
-                <base-button @click="$emit('close')">Close</base-button>
-            </slot>
-        </menu>
+      <header>
+        <slot name="header">
+          <h2>{{ title }}</h2>
+        </slot>
+      </header>
+      <section>
+        <slot></slot>
+      </section>
+      <menu>
+        <slot name="actions">
+          <base-button @click="$emit('close')">Close</base-button>
+        </slot>
+      </menu>
     </dialog>
+  </teleport>
 </template>
 
 <script>
 export default {
-    props: {
-        'title': {
-            type: String,
-            required: false,
-            default: 'A Dialog Title',
-        }
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: 'A Dialog Title',
     },
-    emits: ['close'],
+  },
+  emits: ['close'],
 }
 </script>
 

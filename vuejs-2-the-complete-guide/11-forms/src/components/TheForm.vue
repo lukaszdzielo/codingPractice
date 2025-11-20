@@ -46,6 +46,10 @@
         <label for="how-other">Other</label>
       </div>
     </div>
+	 <div class="form-control">
+		<input type="checkbox" id="confirm-terms" name="confirm-terms" v-model="confirm"/>
+		<label for="confirm-terms">Agree to terms of use?</label>
+	 </div>
     <div>
       <button>Save Data</button>
     </div>
@@ -61,6 +65,7 @@ export default {
 		referrer: 'wom',
 		interest: [],
 		how: null,
+		confirm: false,
     }
   },
   methods: {
@@ -78,6 +83,8 @@ export default {
       console.log('Radio:', this.how);
 		this.interest = [];
 		this.how = null;
+      console.log('confirm:', this.confirm);
+		this.confirm = false;
     },
   },
 }

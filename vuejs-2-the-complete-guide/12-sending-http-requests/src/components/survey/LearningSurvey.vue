@@ -38,6 +38,7 @@
 </template>
 
 <script>
+// import axios from 'axios';
 export default {
   data() {
     return {
@@ -46,7 +47,7 @@ export default {
       invalidInput: false,
     };
   },
-  emits: ['survey-submit'],
+//   emits: ['survey-submit'],
   methods: {
     submitSurvey() {
       if (this.enteredName === '' || !this.chosenRating) {
@@ -55,10 +56,10 @@ export default {
       }
       this.invalidInput = false;
 
-      this.$emit('survey-submit', {
-        userName: this.enteredName,
-        rating: this.chosenRating,
-      });
+      // this.$emit('survey-submit', {
+      //   userName: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
 
       fetch('https://vue-http-demo-ea8ff-default-rtdb.europe-west1.firebasedatabase.app/surveys.json', {
         method: 'POST',
@@ -70,6 +71,11 @@ export default {
           rating: this.chosenRating,
         }),
       })
+
+      // axios.post('https://vue-http-demo-85e9e.firebaseio.com/surveys.json', {
+      //   name: this.enteredName,
+      //   rating: this.chosenRating,
+      // });
 
       this.enteredName = '';
       this.chosenRating = null;

@@ -1,5 +1,4 @@
 <template>
-  vue-http-demo-ea8ff
   <!-- <learning-survey @survey-submit="storeSurvey"></learning-survey>
   <user-experiences :results="savedSurveyResults"></user-experiences> -->
   <learning-survey></learning-survey>

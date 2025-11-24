@@ -6,16 +6,21 @@ import App from './App.vue';
 import TeamsList from './components/teams/TeamsList.vue';
 import UsersList from './components/users/UsersList.vue';
 import TeamMembers from './components/teams/TeamMembers.vue';
+import NotFound from './components/nav/NotFound.vue';
 
 const router = createRouter({
     // router options go here
     history: createWebHistory(),
     routes: [
+        { path: '/', redirect: '/teams' }, // redirect root to /teams
+        // { path: '/teams', component: TeamsList, alias: '/'}, // alias makes /teams also accessible via /
         { path: '/teams', component: TeamsList},
         { path: '/users', component: UsersList},
         // { path: '/teams/new'}, // static route always before dynamic
         { path: '/teams/:teamId', component: TeamMembers, props: true}, // dynamic segment 
         // define your routes here
+        // { path: '/:notFound(.*)', redirect: '/teams' }, // catch all redirect
+        { path: '/:notFound(.*)', component: NotFound }, // catch all redirect
     ],
     // default classes below for active element. 
     // active is added to every class even nested / teams / someone

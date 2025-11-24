@@ -4,6 +4,9 @@
     <RouterView />
     <!-- <component :is="activePage"></component> -->
   </main>
+  <footer>
+    <RouterView name="footer"/>
+  </footer>
 </template>
 
 <script>

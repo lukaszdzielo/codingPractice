@@ -15,8 +15,8 @@ const router = createRouter({
         { path: '/', redirect: '/teams' }, // redirect root to /teams
         // { path: '/teams', component: TeamsList, alias: '/'}, // alias makes /teams also accessible via /
         // { path: '/teams', component: TeamsList},
-        { path: '/teams', component: TeamsList, children: [
-            { path: ':teamId', component: TeamMembers, props: true}, // dynamic segment  example: /teams/t2
+        { name: 'teams', path: '/teams', component: TeamsList, children: [
+            { name: 'team-members', path: ':teamId', component: TeamMembers, props: true}, // dynamic segment  example: /teams/t2
         ]},
         { path: '/users', component: UsersList},
         // { path: '/teams/new'}, // static route always before dynamic

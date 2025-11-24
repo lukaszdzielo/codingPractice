@@ -14,7 +14,7 @@ const router = createRouter({
         { path: '/teams', component: TeamsList},
         { path: '/users', component: UsersList},
         // { path: '/teams/new'}, // static route always before dynamic
-        { path: '/teams/:teamId', component: TeamMembers}, // dynamic segment 
+        { path: '/teams/:teamId', component: TeamMembers, props: true}, // dynamic segment 
         // define your routes here
     ],
     // default classes below for active element. 

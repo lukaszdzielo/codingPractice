@@ -39,10 +39,19 @@ const router = createRouter({
             ]
     },
 
-        { path: '/users', components: {
-            default: UsersList,
-            footer: UsersFooter,
-        }},
+        { 
+            path: '/users', 
+            components: {
+                default: UsersList,
+                footer: UsersFooter,
+            },
+            beforeEnter(to, from, next) {
+                console.log('Users beforeEnter');
+                console.log(to, from);
+                next();
+            }
+
+        },
         // { path: '/teams/new'}, // static route always before dynamic
         // { path: '/teams/:teamId', component: TeamMembers, props: true}, // dynamic segment 
         // define your routes here

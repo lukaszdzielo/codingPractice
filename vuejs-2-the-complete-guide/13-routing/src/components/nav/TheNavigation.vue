@@ -52,7 +52,7 @@ a {
   padding: 0.5rem 1.5rem;
   display: inline-block;
 
-  &.router-link-active,
+  &.active,
   &:hover,
   &:active {
     color: #f1a80a;

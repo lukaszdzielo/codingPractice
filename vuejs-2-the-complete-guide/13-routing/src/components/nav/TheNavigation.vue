@@ -1,28 +1,22 @@
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+
+</script>
+
 <template>
   <header>
     <nav>
       <ul>
         <li>
-          <button @click="setActivePage('teams-list')">Teams</button>
+          <RouterLink to="/teams">Teams</RouterLink>
         </li>
         <li>
-          <button @click="setActivePage('users-list')">Users</button>
+          <RouterLink to="/users">Teams</RouterLink>
         </li>
       </ul>
     </nav>
   </header>
 </template>
-
-<script>
-export default {
-  emits: ['set-page'],
-  methods: {
-    setActivePage(page) {
-      this.$emit('set-page', page);
-    },
-  },
-};
-</script>
 
 <style scoped>
 header {
@@ -49,20 +43,21 @@ li {
   margin: 0 2rem;
 }
 
-button {
-  font: inherit;
+a {
+  text-decoration: none;
   background: transparent;
   border: 1px solid transparent;
   cursor: pointer;
   color: white;
   padding: 0.5rem 1.5rem;
   display: inline-block;
-}
 
-button:hover,
-button:active {
-  color: #f1a80a;
-  border-color: #f1a80a;
-  background-color: #1a037e;
+  &.router-link-active,
+  &:hover,
+  &:active {
+    color: #f1a80a;
+    border-color: #f1a80a;
+    background-color: #1a037e;
+  }
 }
 </style>

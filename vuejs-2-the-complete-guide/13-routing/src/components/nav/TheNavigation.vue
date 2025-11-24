@@ -11,7 +11,7 @@ import { RouterLink } from 'vue-router';
           <RouterLink to="/teams">Teams</RouterLink>
         </li>
         <li>
-          <RouterLink to="/users">Teams</RouterLink>
+          <RouterLink to="/users">Users</RouterLink>
         </li>
       </ul>
     </nav>

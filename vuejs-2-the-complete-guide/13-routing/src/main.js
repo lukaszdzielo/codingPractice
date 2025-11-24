@@ -14,10 +14,13 @@ const router = createRouter({
     routes: [
         { path: '/', redirect: '/teams' }, // redirect root to /teams
         // { path: '/teams', component: TeamsList, alias: '/'}, // alias makes /teams also accessible via /
-        { path: '/teams', component: TeamsList},
+        // { path: '/teams', component: TeamsList},
+        { path: '/teams', component: TeamsList, children: [
+            { path: ':teamId', component: TeamMembers, props: true}, // dynamic segment  example: /teams/t2
+        ]},
         { path: '/users', component: UsersList},
         // { path: '/teams/new'}, // static route always before dynamic
-        { path: '/teams/:teamId', component: TeamMembers, props: true}, // dynamic segment 
+        // { path: '/teams/:teamId', component: TeamMembers, props: true}, // dynamic segment 
         // define your routes here
         // { path: '/:notFound(.*)', redirect: '/teams' }, // catch all redirect
         { path: '/:notFound(.*)', component: NotFound }, // catch all redirect

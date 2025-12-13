@@ -4,12 +4,12 @@
     <button @click="animateBlock">Animate</button>
   </div>
   <div class="container">
-    <transition>
+    <transition name="para">
       <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
      <button @click="toggleParagraph">Toggle Paragraph</button>
   </div>
-  <base-modal @close="hideDialog" v-if="dialogIsVisible">
+  <base-modal @close="hideDialog" :open="dialogIsVisible">
     <p>This is a test dialog!</p>
     <button @click="hideDialog">Close it!</button>
   </base-modal>
@@ -73,7 +73,6 @@ button:active {
   height: 8rem;
   background-color: #290033;
   margin-bottom: 2rem;
-  /* transition: transform .3s ease-out; */
 }
 .container {
   max-width: 40rem;
@@ -88,35 +87,19 @@ button:active {
 }
 
 .animate {
-  /* transform: translateX(-150px); */
-  animation: slide-fade .3s ease-out forwards;
+  animation: scale .3s ease-out forwards;
 }
 
-.v-enter-from {
-  opacity: 0;
-  transform: translateY(-30px)
-}
-.v-enter-active {
-  transition: all 0.3s ease-out;
-}
-.v-enter-to {
-  opacity: 1;
-  transform: translateY(0)
+.para-enter-active {
+  animation: slide-scale .3s ease-out forwards;
 }
 
-.v-leave-from {
-  opacity: 1;
-  transform: translateY(0)
-}
-.v-leave-active {
+.para-leave-active {
   transition: all 0.3s ease-in;
-}
-.v-leave-to {
-  opacity: 0;
-  transform: translateY(30px)
+  animation: slide-scale .3s ease-out forwards;
 }
 
-@keyframes slide-fade {
+@keyframes slide-scale {
   0% {
     transform: translateX(0) scale(1);
   }

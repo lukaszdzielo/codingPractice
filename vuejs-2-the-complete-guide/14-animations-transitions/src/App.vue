@@ -4,13 +4,16 @@
     <button @click="animateBlock">Animate</button>
   </div>
   <div class="container">
-    <transition name="para"
+    <transition 
+      :css="false"
       @before-enter="beforeEnter"
       @enter="enter"
       @after-enter="afterEnter"
       @before-leave="beforeLeave"
       @leave="leave"
       @after-leave="afterLeave"
+      @enter-cancelled="enterCancelled"
+      @leave-cancelled="leaveCancelled"
       >
       <p v-if="paraIsVisible">This is only sometimes visible...</p>
     </transition>
@@ -39,23 +42,52 @@ export default {
       dialogIsVisible: false,
       paraIsVisible: false,
       usersAreVisible: false,
+      enterInterval: null,
+      leaveInterval: null,
     };
   },
   methods: {
-    beforeEnter(el) {
-      console.log('BeforeRnter', el);
+    enterCancelled(el) {
+      console.log('enterCancelled', el);
+      clearInterval(this.enterInterval);
     },
-    enter(el) {
+    leaveCancelled(el) {
+      console.log('leaveCancelled', el);
+      clearInterval(this.leaveInterval);
+    },
+    beforeEnter(el) {
+      console.log('beforeEnter', el);
+      el.style.opacity = 0;
+    },
+    enter(el, done) {
       console.log('enter', el);
+      let round = 1;
+      this.enterInterval = setInterval( () => {
+        el.style.opacity = round * .01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.enterInterval);
+          done();
+        }
+      }, 20)
     },
     afterEnter(el) {
       console.log('afterEnter', el);
     },
     beforeLeave(el) {
-      console.log('BeforeLeave', el);
+      console.log('beforeLeave', el);
     },
-    leave(el) {
-      console.log('enter', el);
+    leave(el, done) {
+      console.log('leave', el);
+      let round = 1;
+      this.leaveInterval = setInterval( () => {
+        el.style.opacity = 1 - round * .01;
+        round++;
+        if (round > 100) {
+          clearInterval(this.leaveInterval);
+          done();
+        }
+      }, 20)
     },
     afterLeave(el) {
       console.log('afterLeave', el);
@@ -126,15 +158,6 @@ button:active {
 
 .animate {
   animation: scale .3s ease-out forwards;
-}
-
-.para-enter-active {
-  animation: slide-scale 2s ease-out forwards;
-}
-
-.para-leave-active {
-  transition: all 0.3s ease-in;
-  animation: slide-scale .3s ease-out forwards;
 }
 
 .fade-button-enter-from,

@@ -1,0 +1,42 @@
+<template>
+    <ul>
+        <li v-for="user in users" :key="user" @click="removeUser(user)">{{ user }}</li>
+    </ul>
+    <div>
+        <input type="text" ref="userNameInput">
+        <button @click="addUser()">Add User</button>
+    </div>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                users: ['Max', 'Manuel', 'Julie', 'Angela', 'Michael']
+            };
+        },
+        methods: {
+            addUser() {
+                const enteredUserName = this.$refs.userNameInput.value;
+                this.users.unshift(enteredUserName)
+            },
+            removeUser(user) {
+                this.users = this.users.filter(ust => ust !== user);
+            }
+        }
+    };
+</script>
+
+<style scoped>
+    ul {
+        margin: 1rem 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    li {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+</style>

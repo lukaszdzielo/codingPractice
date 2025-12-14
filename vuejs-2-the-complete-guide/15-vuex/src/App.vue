@@ -1,9 +1,12 @@
 <template>
-  <base-container title="Vuex">
+  <base-container v-if="userIsAuthenticated" title="Vuex">
     <TheCounter />
     <FavoriteValue />
     <button @click="addOne">Add 10</button>
     <ChangeCounter />
+  </base-container>
+  <base-container title="User Authentication">
+    <UserAuth />
   </base-container>
 </template>
 
@@ -12,6 +15,8 @@ import BaseContainer from './components/BaseContainer.vue';
 import TheCounter from './components/TheCounter.vue';
 import ChangeCounter from './components/ChangeCounter.vue';
 import FavoriteValue from './components/FavoriteValue.vue';
+import UserAuth from './components/UserAuth.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -19,12 +24,16 @@ export default {
     TheCounter,
     ChangeCounter,
     FavoriteValue,
+    UserAuth,
+  },
+  computed: {
+    ...mapGetters(['userIsAuthenticated']),
   },
   methods: {
     addOne() {
       // this.$store.commit('increase', { value: 5 } );
       this.$store.dispatch({
-        type: 'increase',
+        type: 'numbers/increase',
         value: 10
       });
     },

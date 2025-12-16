@@ -11,14 +11,12 @@
         </div>
         
         <ul v-if="hasCoaches">
-            <li v-for="coach in filteredCoaches" :key="coach.id">
-                <CoachItem
-                    :id="coach.id"
-                    :first-name="coach.firstName"
-                    :last-name="coach.lastName"
-                    :rate="coach.rate"
-                    :areas="coach.areas" />
-            </li>
+            <CoachItem v-for="coach in filteredCoaches" :key="coach.id"
+                :id="coach.id"
+                :first-name="coach.firstName"
+                :last-name="coach.lastName"
+                :rate="coach.rate"
+                :areas="coach.areas" />
         </ul>
         <h3 v-else>No coaches found.</h3>
 

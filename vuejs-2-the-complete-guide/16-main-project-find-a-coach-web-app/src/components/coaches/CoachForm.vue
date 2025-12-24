@@ -1,69 +1,119 @@
 <template>
-    <form @submit.prevent="submitForm">
-        <div class="form-control">
-            <label for="firstName">First Name</label>
-            <input v-model.trim="firstName" type="text" id="firstName" />
-        </div>
-        <div class="form-control">
-            <label for="lastName">Last Name</label>
-            <input v-model.trim="lastName" type="text" id="lastName" />
-        </div>
-        <div class="form-control">
-            <label for="description">Description</label>
-            <textarea v-model.trim="description" id="description" rows="5" />
-        </div>
-        <div class="form-control">
-            <label for="hourlyRate">Hourly Rate</label>
-            <input v-model.number="rate" type="text" id="hourlyRate" />
-        </div>
-        <div class="form-control">
-            <h3>Areas of Expertise</h3>
-            <div>
-                <input v-model="areas" type="checkbox" id="frontend" value="frontend" />
-                <label for="frontend">Frontend Development</label>
-            </div>
-            <div>
-                <input v-model="areas" type="checkbox" id="backend" value="backend" />
-                <label for="backend">Backend Development</label>
-            </div>
-            <div>
-                <input v-model="areas" type="checkbox" id="career" value="career" />
-                <label for="career">Career Advisory</label>
-            </div>
-        </div>
-        <BaseButton>Register as Coach</BaseButton>
-    </form>
+  <form @submit.prevent="submitForm">
+    <div class="form-control" :class="{ invalid: !firstName.isValid }">
+      <label for="firstName">First Name</label>
+      <input v-model.trim="firstName.val" type="text" id="firstName" @blur="clearValidity('firstName')" />
+      <p v-if="!firstName.isValid">Firstname must not be empty.</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !lastName.isValid }">
+      <label for="lastName">Last Name</label>
+      <input v-model.trim="lastName.val" type="text" id="lastName" @blur="clearValidity('lastName')" />
+      <p v-if="!lastName.isValid">Lastname must not be empty.</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !description.isValid }">
+      <label for="description">Description</label>
+      <textarea v-model.trim="description.val" id="description" rows="5" @blur="clearValidity('description')"/>
+      <p v-if="!description.isValid">Description must not be empty.</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !rate.isValid }">
+      <label for="hourlyRate">Hourly Rate</label>
+      <input v-model.number="rate.val" type="text" id="hourlyRate" @blur="clearValidity('rate')"/>
+      <p v-if="!rate.isValid">Rate must not be greater than 0.</p>
+    </div>
+    <div class="form-control" :class="{ invalid: !areas.isValid }">
+      <h3>Areas of Expertise</h3>{{ areas.value }}
+      <div>
+        <input v-model="areas.val" type="checkbox" id="frontend" value="frontend" @change="clearValidity('areas')" />
+        <label for="frontend">Frontend Development</label>
+      </div>
+      <div>
+        <input v-model="areas.val" type="checkbox" id="backend" value="backend" @change="clearValidity('areas')" />
+        <label for="backend">Backend Development</label>
+      </div>
+      <div>
+        <input v-model="areas.val" type="checkbox" id="career" value="career" @change="clearValidity('areas')" />
+        <label for="career">Career Advisory</label>
+      </div>
+      <p v-if="!areas.isValid">At least one expertise must be selected.</p>
+    </div>
+    <p v-if="!formIsValid">Please fix the above errors and submit again.</p>
+    <BaseButton>Register as Coach</BaseButton>
+  </form>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                firstName: '',
-                lastName: '',
-                description: '',
-                rate: null,
-                areas: [],
-            };
-        },
-        methods: {
-            submitForm() {
-                const formData = {
-                    first: this.firstName,
-                    last: this.lastName,
-                    desc: this.description,
-                    rate: this.rate,
-                    areas: this.areas,
-                };
-                console.log(formData);
-                this.$emit('register-coach', formData);
-            },
-        },
+export default {
+  emits: ['save-data'],
+  data() {
+    return {
+      firstName: {
+        val: '',
+        isValid: true,
+      },
+      lastName: {
+        val: '',
+        isValid: true,
+      },
+      description: {
+        val: '',
+        isValid: true,
+      },
+      rate: {
+        val: null,
+        isValid: true,
+      },
+      areas: {
+        val: [],
+        isValid: true,
+      },
+      formIsValid: true,
     };
+  },
+  methods: {
+    clearValidity(input) {
+        this[input].isValid = true;
+    },
+    validateForm() {
+      this.formIsValid = true;
+      if (!this.firstName.val) {
+        this.firstName.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.lastName.val) {
+        this.lastName.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.description.val) {
+        this.description.isValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.rate.val || this.rate.val < 0) {
+        this.rate.isValid = false;
+        this.formIsValid = false;
+      }
+      if (this.areas.val.length === 0) {
+        this.areas.isValid = false;
+        this.formIsValid = false;
+      }
+    },
+    submitForm() {
+      this.validateForm();
+      if (!this.formIsValid) return;
+      const formData = {
+        first: this.firstName,
+        last: this.lastName,
+        desc: this.description,
+        rate: this.rate,
+        areas: this.areas,
+      };
+      this.$emit('save-data', formData);
+    },
+  },
+};
 </script>
 
 <style scoped>
-    .form-control {
+.form-control {
   margin: 0.5rem 0;
 }
 
@@ -73,7 +123,7 @@ label {
   margin-bottom: 0.5rem;
 }
 
-input[type='checkbox'] + label {
+input[type='checkbox']+label {
   font-weight: normal;
   display: inline;
   margin: 0 0 0 0.5rem;

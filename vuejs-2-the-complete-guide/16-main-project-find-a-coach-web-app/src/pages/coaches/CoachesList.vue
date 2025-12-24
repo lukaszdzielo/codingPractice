@@ -8,7 +8,7 @@
         <BaseCard>
             <div class="controls">
                 <BaseButton mode="outline">Refresh</BaseButton>
-                <BaseButton link to="/register">Register as coach</BaseButton>
+                <BaseButton v-if="!isCoach" link to="/register">Register as coach</BaseButton>
             </div>
             <ul v-if="hasCoaches">
                 <CoachItem v-for="coach in filteredCoaches" :key="coach.id"
@@ -44,6 +44,9 @@ import CoachFilter from '@/components/coaches/CoachFilter.vue';
             };
         },
         computed: {
+            isCoach() {
+                return this.$store.getters['coaches/isCoach'];
+            },
             filteredCoaches() {
                 const coaches = this.$store.getters['coaches/coaches'];
                 return coaches.filter(coach => {

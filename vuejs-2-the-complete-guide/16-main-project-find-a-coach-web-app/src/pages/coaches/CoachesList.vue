@@ -1,5 +1,9 @@
 <template>
 
+    <BaseDialog :show="!!error" title="An Error Occurred" @close="handleError">
+        <p>{{ error }}</p>
+    </BaseDialog>
+
     <section>
         <CoachFilter @change-filter="setFilter" />
     </section>
@@ -7,10 +11,13 @@
     <section>
         <BaseCard>
             <div class="controls">
-                <BaseButton mode="outline">Refresh</BaseButton>
-                <BaseButton v-if="!isCoach" link to="/register">Register as coach</BaseButton>
+                <BaseButton mode="outline" @click="loadCoaches(true)">Refresh</BaseButton>
+                <BaseButton v-if="!isCoach && !isLoading" link to="/register">Register as coach</BaseButton>
             </div>
-            <ul v-if="hasCoaches">
+            <div v-if="isLoading">
+                <BaseSpinner></BaseSpinner>
+            </div>
+            <ul v-else-if="hasCoaches">
                 <CoachItem v-for="coach in filteredCoaches" :key="coach.id"
                     :id="coach.id"
                     :first-name="coach.firstName"
@@ -36,6 +43,8 @@ import CoachFilter from '@/components/coaches/CoachFilter.vue';
         },
         data() {
             return {
+                isLoading: false,
+                error: null,
                 activeFilters: {
                     frontend: true,
                     backend: true,
@@ -61,12 +70,27 @@ import CoachFilter from '@/components/coaches/CoachFilter.vue';
                 });
             },
             hasCoaches() {
-                return this.$store.getters['coaches/coaches'];
+                return !this.isLoading && this.$store.getters['coaches/coaches'];
             }   
+        },
+        created() {
+            this.loadCoaches();
         },
         methods: {
             setFilter(updatedFilters) {
                 this.activeFilters = updatedFilters;
+            },
+            async loadCoaches(refresh = false) {
+                this.isLoading = true;
+                try {
+                    await this.$store.dispatch('coaches/loadCoaches', { forceRefresh: refresh });
+                } catch (error) {
+                    this.error = error.message || 'Something went wrong!';
+                }
+                this.isLoading = false;
+            },
+            handleError() {
+                this.error = null;
             },
         },
     }

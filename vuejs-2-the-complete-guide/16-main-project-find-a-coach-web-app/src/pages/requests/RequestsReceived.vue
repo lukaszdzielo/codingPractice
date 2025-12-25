@@ -1,10 +1,14 @@
 <template>
+	<BaseDialog :show="!!error" title="An Error Occurred" @close="handleError">
+		<p>{{ error }}</p>
+	</BaseDialog>
 	<section>
 		<base-card>
 			<header>
 				<h2>Requests Received</h2>
 			</header>
-			<ul v-if="hasRequests">
+			<BaseSpinner v-if="isLoading"></BaseSpinner>
+			<ul v-else-if="hasRequests && !isLoading">
 				<RequestItem v-for="req in receivedRequests" :key="req.id" :email="req.userEmail" :message="req.message">
 				</RequestItem>
 			</ul>
@@ -15,14 +19,39 @@
 
 <script>
 import RequestItem from "@/components/requests/RequestItem.vue";
+import BaseDialog from "@/components/ui/BaseDialog.vue";
+import BaseSpinner from "@/components/ui/BaseSpinner.vue";
 export default {
 	components: { RequestItem },
+	data() {
+		return {
+			isLoading: false,
+			error: null,
+		};
+	},
 	computed: {
 		receivedRequests() {
 			return this.$store.getters['requests/requests'];
 		},
 		hasRequests() {
 			return this.$store.getters['requests/hasRequests'];
+		},
+	},
+	created() {
+		this.loadRequests();
+	},
+	methods: {
+		async loadRequests() {
+			this.isLoading = true;
+			try {
+				await this.$store.dispatch('requests/fetchRequests');
+			} catch (error) {
+				this.error = error.message || 'Something failed!';
+			}
+			this.isLoading = false;
+		},
+		handleError() {
+			this.error = null;
 		},
 	},
 };

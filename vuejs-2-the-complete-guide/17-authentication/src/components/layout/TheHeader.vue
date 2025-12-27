@@ -4,15 +4,28 @@
             <h1><RouterLink to="/">Find a Coach</RouterLink></h1>
             <ul>
                 <li><RouterLink to="/coaches">All coaches</RouterLink></li>
-                <li><RouterLink to="/requests">Requests</RouterLink></li>
+                <li v-if="isLoggedIn"><RouterLink to="/requests">Requests</RouterLink></li>
+                <li v-else><RouterLink to="/auth">Login</RouterLink></li>
+                <li v-if="isLoggedIn"><BaseButton @click="logout">Logout</BaseButton></li>
             </ul>
         </nav>
     </header>
 </template>
 
 <script>
+import BaseButton from '../ui/BaseButton.vue';
+
     export default {
-        name: 'TheHeader'
+        computed: {
+            isLoggedIn() {
+                return this.$store.getters.isAuthenticated;
+            },
+        },
+        methods: {
+          logout() {
+            this.$store.dispatch('logout')
+          }
+        },
     }
 </script>
 

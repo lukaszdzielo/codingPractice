@@ -13,7 +13,8 @@
             <BaseCard>
                 <div class="controls">
                     <BaseButton mode="outline" @click="loadCoaches(true)">Refresh</BaseButton>
-                    <BaseButton v-if="!isCoach && !isLoading" link to="/register">Register as coach</BaseButton>
+                    <BaseButton v-if="!isLoggedIn" link to="/auth">Login</BaseButton>
+                    <BaseButton v-if="isLoggedIn && !isCoach && !isLoading" link to="/register">Register as coach</BaseButton>
                 </div>
                 <div v-if="isLoading">
                     <BaseSpinner></BaseSpinner>
@@ -55,6 +56,9 @@ import CoachFilter from '@/components/coaches/CoachFilter.vue';
             };
         },
         computed: {
+            isLoggedIn() {
+                return this.$store.getters.isAuthenticated;
+            },
             isCoach() {
                 return this.$store.getters['coaches/isCoach'];
             },

@@ -33,23 +33,23 @@ const userName = computed(function () {
     return props.firstName + ' ' + props.lastName;
 })
 
-// onBeforeMount(function() {
-//     console.log('onBeforeMount');
-// });
-// onMounted(function() {
-//     console.log('onMounted');
-// });
-// onBeforeUpdate(function() {
-//     console.log('onBeforeUpdate');
-// });
-// onUpdated(function() {
-//     console.log('onUpdated');
-// });
-// onBeforeUnmount(function() {
-//     console.log('onBeforeUnmount');
-// });
-// onUnmounted(function() {
-//     console.log('onUnmounted');
-// });
+onBeforeMount(function() {
+    console.log('onBeforeMount');
+});
+onMounted(function() {
+    console.log('onMounted');
+});
+onBeforeUpdate(function() {
+    console.log('onBeforeUpdate');
+});
+onUpdated(function() {
+    console.log('onUpdated');
+});
+onBeforeUnmount(function() {
+    console.log('onBeforeUnmount');
+});
+onUnmounted(function() {
+    console.log('onUnmounted');
+});
 
 </script>

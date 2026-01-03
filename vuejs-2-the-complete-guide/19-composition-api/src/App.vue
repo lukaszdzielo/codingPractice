@@ -16,9 +16,9 @@
 </template>
 
 <script setup>
-import { ref, isRef, reactive, isReactive, toRefs, computed } from 'vue';
+import { ref, isRef, reactive, isReactive, toRefs, computed, watch } from 'vue';
  
-// const userName = ref('Maximilian');
+const userName = ref('Maximilian');
 
 const userAge = ref(11);
 
@@ -35,15 +35,15 @@ const user3 = reactive({
   age: 11,
 });
 
-console.log( '1', isRef(userAge) ) // true
-console.log( '2', isRef(user2) ) // true
-console.log( '3', isReactive(user3) ) // true
-console.log( '4', isReactive(user3.name) ) // false
+// console.log( '1', isRef(userAge) ) // true
+// console.log( '2', isRef(user2) ) // true
+// console.log( '3', isReactive(user3) ) // true
+// console.log( '4', isReactive(user3.name) ) // false
 
 const userRefs = toRefs(user3)
 
-console.log( '5', isRef(userRefs) ) // false
-console.log( '6', isRef(userRefs.name) ) // true
+// console.log( '5', isRef(userRefs) ) // false
+// console.log( '6', isRef(userRefs.name) ) // true
 
 setTimeout(function() {
   // userName.value = 'Max';
@@ -74,6 +74,14 @@ function setFirstName(e) {
 function setLastName(e) {
   lastName.value = e.target.value;
 }
+
+watch(userAge, function (newValue, oldValue) {
+  console.log('userAge changed.',  oldValue, '→', newValue)
+})
+
+watch([userAge, userName], function (newValues, oldValues) {
+  console.log('userAge changed.',  oldValues, '→', newValues)
+})
 
 </script>
 

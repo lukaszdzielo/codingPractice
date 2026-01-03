@@ -80,7 +80,8 @@ watch(userAge, function (newValue, oldValue) {
 })
 
 watch([userAge, userName], function (newValues, oldValues) {
-  console.log('userAge changed.',  oldValues, '→', newValues)
+  console.log(0,  oldValues[0], '→', newValues[0])
+  console.log(1,  oldValues[1], '→', newValues[1])
 })
 
 </script>

@@ -1,28 +1,32 @@
 <template>
   <section>
     <h2>{{ title }}</h2>
-    <h3>${{ price}}</h3>
-    <p>{{ description}}</p>
+    <h3>${{ price }}</h3>
+    <p>{{ description }}</p>
     <RouterLink to="/products/p2">Product 2</RouterLink>
   </section>
 </template>
 
 <script setup>
 import { inject, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
 const props = defineProps(['pid'])
 
-  const products = inject('products');
+const products = inject('products');
 
-  const selectedProduct = computed( () => {
-    return products.value.find(product => product.id === props.pid)
-  })
+const route = useRoute();
+console.log(route)
 
-  const title = computed(() => selectedProduct.value.title);
-  const price = computed(() => selectedProduct.value.price);
-  const description = computed(() => selectedProduct.value.description);
+const selectedProduct = computed(() => {
+  return products.value.find(product => product.id === props.pid)
+})
 
-  // const { title, price, description } = selectedProduct.value;
+const title = computed(() => selectedProduct.value.title);
+const price = computed(() => selectedProduct.value.price);
+const description = computed(() => selectedProduct.value.description);
+
+// const { title, price, description } = selectedProduct.value;
 
 </script>
 

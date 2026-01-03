@@ -10,7 +10,9 @@
     <div>
       <div>{{ uName }}</div>
       <input type="text" placeholder="First Name" v-model="firstName">
-      <input type="text" placeholder="Last Name" @input="setLastName">
+      <!-- <input type="text" placeholder="Last Name" @input="setLastName"> -->
+      <input type="text" placeholder="Last Name" ref="lastNameInput" />
+      <button @click="setLastName">Set Last Name</button>
     </div>
   </section>
 </template>
@@ -24,6 +26,7 @@ const userAge = ref(11);
 
 const firstName = ref('-');
 const lastName = ref('-');
+const lastNameInput = ref(null);
 
 const user2 = ref({
   name: 'Maximilian',
@@ -71,9 +74,9 @@ function setFirstName(e) {
   firstName.value = e.target.value;
 }
 
-function setLastName(e) {
-  lastName.value = e.target.value;
-}
+// function setLastName(e) {
+//   lastName.value = e.target.value;
+// }
 
 watch(userAge, function (newValue, oldValue) {
   console.log('userAge changed.',  oldValue, '→', newValue)
@@ -83,6 +86,10 @@ watch([userAge, userName], function (newValues, oldValues) {
   console.log(0,  oldValues[0], '→', newValues[0])
   console.log(1,  oldValues[1], '→', newValues[1])
 })
+
+function setLastName () {
+  lastName.value = lastNameInput.value.value;
+}
 
 </script>
 

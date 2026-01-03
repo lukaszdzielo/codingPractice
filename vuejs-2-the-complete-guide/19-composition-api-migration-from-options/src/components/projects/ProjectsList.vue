@@ -12,7 +12,52 @@
   </base-container>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, watch, toRefs } from 'vue';
+import ProjectItem from './ProjectItem.vue';
+
+const props = defineProps(['user']);
+
+const enteredSearchTerm = ref('');
+const activeSearchTerm = ref('');
+
+
+const availableProjects = computed(function () {
+  if (activeSearchTerm.value) {
+    return props.user.projects.filter((prj) =>
+      prj.title.includes(activeSearchTerm.value)
+    );
+  }
+  return props.user.projects;
+});
+
+const hasProjects = computed(function () {
+  return props.user.projects && availableProjects.value.length > 0;
+});
+
+watch(enteredSearchTerm, function (newValue) {
+  setTimeout(() => {
+    if (newValue === enteredSearchTerm.value) {
+      activeSearchTerm.value = newValue;
+    }
+  }, 300);
+});
+
+// jesli w props chcemy obserwowac dana ktora z props przyjdzie to jest ona stala, mozna zamienic ja na referencje w toRefs i obserwowac tylko ja a nie wszystkie props za pomoca watch
+// const propsWithRefs = toRefs(props);
+// const user = propsWithRefs.user;
+const { user } = toRefs(props);
+
+watch(user, function () {
+  enteredSearchTerm.value = '';
+});
+
+function updateSearch(val) {
+  enteredSearchTerm.value = val;
+};
+</script>
+
+<!-- <script>
 import ProjectItem from './ProjectItem.vue';
 
 export default {
@@ -57,7 +102,7 @@ export default {
     },
   },
 };
-</script>
+</script> -->
 
 <style scoped>
 ul {

@@ -1,7 +1,7 @@
 <template>
   <section class="container">
 
-    <UserData :first-name="firstName" :last-name="lastName" :user-age="userAge"></UserData>
+    <UserData :first-name="firstName" :last-name="lastName"></UserData>
     <!-- <h2>{{ userName }}</h2>
     <h3>{{ userAge }}</h3> -->
     <h2>{{ user3.name }}</h2>
@@ -20,13 +20,15 @@
 </template>
 
 <script setup>
-import { ref, isRef, reactive, isReactive, toRefs, computed, watch } from 'vue';
+import { ref, isRef, reactive, isReactive, toRefs, computed, watch, provide } from 'vue';
 import UserData from './components/UserData.vue';
 
  
 const userName = ref('Maximilian');
 
 const userAge = ref(11);
+
+provide('userAge', userAge);
 
 const firstName = ref('-');
 const lastName = ref('-');

@@ -1,5 +1,5 @@
 <template>
-  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
+  <user-alert v-if="alertIsVisible" :title="alertTitle" @close="hideAlert">
     <p>Do you want to continue with adding a user?</p>
   </user-alert>
   <section>
@@ -15,6 +15,11 @@ import alertMixin from '../mixins/alert.js'
 export default {
   components: {
     UserAlert,
+  },
+  data() {
+    return {
+      alertTitle: 'Add user?',
+    }
   },
   mixins: [alertMixin],
 }

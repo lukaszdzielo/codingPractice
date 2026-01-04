@@ -1,5 +1,5 @@
 <template>
-  <user-alert v-if="alertIsVisible" :title="alertTitle" @close="hideAlert">
+  <user-alert v-if="alertIsVisible" title="Add a User?" @close="hideAlert">
     <p>Do you want to continue with adding a user?</p>
   </user-alert>
   <section>
@@ -8,19 +8,13 @@
   </section>
 </template>
 
-<script>
+<script setup>
 import UserAlert from './UserAlert.vue';
-import alertMixin from '../mixins/alert.js'
+import useAlert from '@/hooks/alert';
 
-export default {
-  components: {
-    UserAlert,
-  },
-  data() {
-    return {
-      alertTitle: 'Add user?',
-    }
-  },
-  mixins: [alertMixin],
-}
+const [
+  alertIsVisible,
+  showAlert,
+  hideAlert
+] = useAlert();
 </script>

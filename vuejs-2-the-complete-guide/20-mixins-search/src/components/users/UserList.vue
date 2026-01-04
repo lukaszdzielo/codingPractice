@@ -19,9 +19,11 @@
 </template>
 
 <script>
-import { ref, computed, watch } from 'vue';
+import { toRefs } from 'vue';
 
 import UserItem from './UserItem.vue';
+import useSearch from '@/hooks/search';
+import useSort from '@/hooks/sort';
 
 export default {
   components: {
@@ -30,55 +32,17 @@ export default {
   props: ['users'],
   emits: ['list-projects'],
   setup(props) {
-    const enteredSearchTerm = ref('');
-    const activeSearchTerm = ref('');
 
-    const availableUsers = computed(function () {
-      let users = [];
-      if (activeSearchTerm.value) {
-        users = props.users.filter((usr) =>
-          usr.fullName.includes(activeSearchTerm.value)
-        );
-      } else if (props.users) {
-        users = props.users;
-      }
-      return users;
-    });
+    const { users } = toRefs(props)
+    const { enteredSearchTerm,
+        availableItems,
+        updateSearch
+      } = useSearch(users, 'fullName');
 
-    watch(enteredSearchTerm, function (newValue) {
-      setTimeout(() => {
-        if (newValue === enteredSearchTerm.value) {
-          activeSearchTerm.value = newValue;
-        }
-      }, 300);
-    });
-
-    function updateSearch(val) {
-      enteredSearchTerm.value = val;
-    }
-
-    const sorting = ref(null);
-    const displayedUsers = computed(function () {
-      if (!sorting.value) {
-        return availableUsers.value;
-      }
-      return availableUsers.value.slice().sort((u1, u2) => {
-        if (sorting.value === 'asc' && u1.fullName > u2.fullName) {
-          return 1;
-        } else if (sorting.value === 'asc') {
-          return -1;
-        } else if (sorting.value === 'desc' && u1.fullName > u2.fullName) {
-          return -1;
-        } else {
-          return 1;
-        }
-      });
-    });
-
-    function sort(mode) {
-      sorting.value = mode;
-    }
-
+      const { sorting,
+        displayedUsers,
+        sort } = useSort(availableItems, 'fullName' )
+    
     return {
       enteredSearchTerm,
       updateSearch,
@@ -87,59 +51,6 @@ export default {
       sort
     };
   },
-  // data() {
-  //   return {
-  //     enteredSearchTerm: '',
-  //     activeSearchTerm: '',
-  //     sorting: null,
-  //   };
-  // },
-  // computed: {
-  //   availableUsers() {
-  //     let users = [];
-  //     if (this.activeSearchTerm) {
-  //       users = this.users.filter((usr) =>
-  //         usr.fullName.includes(this.activeSearchTerm)
-  //       );
-  //     } else if (this.users) {
-  //       users = this.users;
-  //     }
-  //     return users;
-  //   },
-  //   displayedUsers() {
-  //     if (!this.sorting) {
-  //       return this.availableUsers;
-  //     }
-  //     return this.availableUsers.slice().sort((u1, u2) => {
-  //       if (this.sorting === 'asc' && u1.fullName > u2.fullName) {
-  //         return 1;
-  //       } else if (this.sorting === 'asc') {
-  //         return -1;
-  //       } else if (this.sorting === 'desc' && u1.fullName > u2.fullName) {
-  //         return -1;
-  //       } else {
-  //         return 1;
-  //       }
-  //     });
-  //   },
-  // },
-  // methods: {
-  //   updateSearch(val) {
-  //     this.enteredSearchTerm = val;
-  //   },
-  //   sort(mode) {
-  //     this.sorting = mode;
-  //   },
-  // },
-  // watch: {
-  //   enteredSearchTerm(val) {
-  //     setTimeout(() => {
-  //       if (val === this.enteredSearchTerm) {
-  //         this.activeSearchTerm = val;
-  //       }
-  //     }, 300);
-  //   }
-  // },
 };
 </script>
 

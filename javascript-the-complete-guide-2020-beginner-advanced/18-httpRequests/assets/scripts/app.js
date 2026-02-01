@@ -6,29 +6,47 @@ const postList = document.querySelector('ul');
 
 function sendHttpRequest(method, url, data) {
 
-    const promise = new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open(method, url);
-        xhr.responseType = 'json';
+    // const promise = new Promise((resolve, reject) => {
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.open(method, url);
+    //     xhr.responseType = 'json';
 
-        xhr.onload = function () {
-            resolve(xhr.response);
-        };
-        xhr.send(JSON.stringify(data));
+    //     xhr.onload = function () {
+    //         if (xhr.status >= 200 && xhr.status < 300) {
+    //             resolve(xhr.response);
+    //         } else {
+    //             reject(new Error('Something went wrong!'));
+    //         }
+    //     };
+
+    //     xhr.onerror = function () {
+    //         reject('Something went wrong!');
+    //     }
+
+    //     xhr.send(JSON.stringify(data));
+
+    // })
+    // return promise;
+
+    return fetch(url).then(response => {
+        return response.json();
     })
-    return promise;
 }
 
 async function fetchPosts() {
-    const responseData = await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts')
-    const listofPosts = responseData;
-    for (const post of listofPosts) {
-        const postEl = document.importNode(postTemplate.content, true);
-        postEl.querySelector('h2').textContent = post.title.toUpperCase();
-        postEl.querySelector('p').textContent = post.body;
-        postEl.querySelector('li').id = post.id;
-        listElement.append(postEl);
-    }
+    // try {
+        const responseData = await sendHttpRequest('GET', 'https://jsonplaceholder.typicode.com/posts')
+        const listofPosts = responseData;
+        for (const post of listofPosts) {
+            const postEl = document.importNode(postTemplate.content, true);
+            postEl.querySelector('h2').textContent = post.title.toUpperCase();
+            postEl.querySelector('p').textContent = post.body;
+            postEl.querySelector('li').id = post.id;
+            listElement.append(postEl);
+        }
+    // } catch (error) {
+    //     alert(error.message);
+    // }
 }
 
 async function createPost(title, content) {

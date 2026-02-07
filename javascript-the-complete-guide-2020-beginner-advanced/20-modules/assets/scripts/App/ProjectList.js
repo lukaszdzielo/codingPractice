@@ -18,6 +18,8 @@ export class ProjectList {
   }
 
   connectDroppable() {
+    console.log('globalThis', globalThis);
+    console.log('globalThis.DEFAULT_VALUE', globalThis.DEFAULT_VALUE);
     const list = document.querySelector(`#${this.type}-projects ul`);
 
     list.addEventListener('dragenter', event => {

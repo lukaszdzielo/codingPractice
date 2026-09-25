@@ -1,15 +1,51 @@
 // import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { useState } from 'react';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ScrollView,
+} from 'react-native';
 
 export default function App() {
+  const [enteredGoalText, setEnteredGoalText] = useState('');
+  const [courseGoals, setCourseGoals] = useState([]);
+
+  function goalInputHandler(enteredText) {
+    setEnteredGoalText(enteredText);
+  }
+
+  function addGoalHandler() {
+    setCourseGoals((currentCourseGoals) => [
+      ...currentCourseGoals,
+      enteredGoalText,
+    ]);
+  }
+
   return (
     <View style={styles.appContainer}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.textInput} placeholder="Your course goal!" />
-        <Button title="Add Goal" />
+        <TextInput
+          style={styles.textInput}
+          placeholder="Your course goal!"
+          onChangeText={goalInputHandler}
+        />
+        <Button
+          style={styles.button}
+          title="Add Goal"
+          onPress={addGoalHandler}
+        />
       </View>
-      <View>
-        <Text>List of Goals</Text>
+      <View style={styles.goalsContainer}>
+        <ScrollView alwaysBounceVertical={false}>
+          {courseGoals.map((goal) => (
+            <View key={goal} style={styles.goalItem}>
+              <Text style={styles.goalText}>{goal}</Text>
+            </View>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );
@@ -17,16 +53,18 @@ export default function App() {
 
 const styles = StyleSheet.create({
   appContainer: {
-    padding: 50,
-    backgroundColor: 'lightgreen',
+    flex: 1,
+    paddingTop: 50,
+    paddingHorizontal: 16,
   },
   inputContainer: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // alignItems: 'center',
-    // marginBottom: 24,
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#cccccc',
+    alignItems: 'center',
+    marginBottom: 24,
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc',
   },
   textInput: {
     borderWidth: 1,
@@ -34,5 +72,21 @@ const styles = StyleSheet.create({
     width: '70%',
     marginRight: 8,
     padding: 8,
+  },
+  goalsContainer: {
+    flex: 5,
+  },
+  button: {
+    backgroundColor: 'blue',
+    color: 'white',
+  },
+  goalItem: {
+    margin: 8,
+    padding: 8,
+    borderRadius: 6,
+    backgroundColor: '#5e0acc',
+  },
+  goalText: {
+    color: 'white',
   },
 });

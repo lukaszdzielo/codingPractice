@@ -20,8 +20,8 @@ html {
 body {
   background: radial-gradient(
       circle at top,
-      rgba(241, 210, 70, 0.98),
-      rgba(250, 176, 103, 0.87)
+      rgba(30, 42, 74, 0.97),
+      rgba(13, 19, 36, 0.97)
     ),
     url('bg-pattern-dark.png');
   background-repeat: repeat;
@@ -44,7 +44,7 @@ h1 {
   font-family: 'Caprasimo', cursive;
   font-size: 3rem;
   margin: 0 auto 3rem auto;
-  color: #3f3b00;
+  color: #fcd256;
 }
 
 #game-container {
@@ -241,7 +241,7 @@ ol {
 
 #log {
   max-width: 20rem;
-  color: #3f3b00;
+  color: #c9cde0;
   list-style: none;
   margin: 2rem auto;
   padding: 0;
@@ -255,13 +255,13 @@ ol {
 }
 
 #log li.highlighted {
-  background-color: #3f3b00;
+  background-color: #2c3a5e;
   color: white;
 }
 
 #game-hints {
   text-align: center;
-  color: #46432f;
+  color: #b8bdd4;
 }
 
 #game-hints h2 {
@@ -280,7 +280,7 @@ ol {
   cursor: pointer;
   border: none;
   background: transparent;
-  color: #23221f;
+  color: #e1dec7;
   font: inherit;
   margin-top: 1.5rem;
 }
